@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './custom.css';
+
+body
+{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+@layer utilities
+{
+  .text-balance
+  {
+    text-wrap: balance;
+  }
+
+  .map-container
+  {
+    height: 50vh;
+    width: 100%;
+  }
+}
