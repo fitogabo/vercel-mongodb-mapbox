@@ -1,4 +1,4 @@
-// models/Shipwreck.js
+// models/shipwreck.js
 import mongoose from 'mongoose';
 
 const ShipwreckSchema = new mongoose.Schema({
