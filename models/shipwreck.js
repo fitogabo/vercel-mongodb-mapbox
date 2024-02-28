@@ -1,6 +1,10 @@
 // models/shipwreck.js
 import mongoose from 'mongoose';
 
+const CoordinateSchema = new mongoose.Schema({
+    $numberDouble: String
+});
+
 const ShipwreckSchema = new mongoose.Schema({
     recrd: String,
     vesslterms: String,
@@ -14,9 +18,7 @@ const ShipwreckSchema = new mongoose.Schema({
     history: String,
     quasou: String,
     watlev: String,
-    coordinates: {
-        type: [Number],
-    }
+    coordinates: [CoordinateSchema]
 }, { collection: 'shipwrecks' });
 
 export default mongoose.models.Shipwreck || mongoose.model('Shipwreck', ShipwreckSchema);
