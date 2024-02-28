@@ -2,7 +2,7 @@
 import dbConnect from '../../lib/dbConnect';
 import Shipwreck from '../../models/shipwreck';
 
-export default async (req, res) => {
+const getMarkers = async (req, res) => {
     console.log('Handling request to /api/getMarkers');
 
     try {
@@ -25,3 +25,5 @@ export default async (req, res) => {
         res.status(500).json({ success: false, message: 'Error fetching shipwrecks', error: error.message });
     }
 };
+
+export default getMarkers;
