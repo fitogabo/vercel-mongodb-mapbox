@@ -24,6 +24,17 @@ const getMarkers = async (req, res) => {
         return res.status(500).json({ success: false, message: 'Error fetching shipwrecks', error: error.message });
     }
 
+    // Get the total count of documents
+    let count;
+    try {
+        console.log('Counting documents...');
+        count = await Shipwreck.countDocuments({});
+        console.log(`Total documents in database: ${count}`);
+    } catch (error) {
+        console.error('Error counting documents:', error.message);
+        return res.status(500).json({ success: false, message: 'Error counting documents', error: error.message });
+    }
+
     // Transforma los datos de MongoDB a GeoJSON
     const geojson = {
         type: 'FeatureCollection',
