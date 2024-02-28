@@ -14,16 +14,37 @@ const getMarkers = async (req, res) => {
         return res.status(500).json({ success: false, message: 'Error connecting to database', error: error.message });
     }
 
+    let shipwrecks;
     try {
         console.log('Fetching shipwrecks...');
-        const shipwrecks = await Shipwreck.find({}) || [];
+        shipwrecks = await Shipwreck.find({}) || [];
         console.log(`Fetched ${shipwrecks.length} shipwrecks`);
-
-        res.status(200).json({ success: true, data: shipwrecks });
     } catch (error) {
         console.error('Error fetching shipwrecks:', error.message);
-        res.status(500).json({ success: false, message: 'Error fetching shipwrecks', error: error.message });
+        return res.status(500).json({ success: false, message: 'Error fetching shipwrecks', error: error.message });
     }
+
+    // Transforma los datos de MongoDB a GeoJSON
+    const geojson = {
+        type: 'FeatureCollection',
+        features: shipwrecks.map(shipwreck => ({
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [
+                    parseFloat(shipwreck.londec.$numberDouble),
+                    parseFloat(shipwreck.latdec.$numberDouble)
+                ]
+            },
+            properties: {
+                // Aquí puedes agregar cualquier otra propiedad que quieras mostrar en el mapa
+                name: shipwreck.vesslterms,
+                feature_type: shipwreck.feature_type
+            }
+        }))
+    };
+
+    res.status(200).json({ success: true, data: geojson });
 };
 
 export default getMarkers;
