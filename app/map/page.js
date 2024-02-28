@@ -28,36 +28,6 @@ export default function App() {
     });
 
     map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-    // Fetch shipwrecks data from API when map is loaded
-    map.current.on('load', async () => {
-      console.log('Map loaded, fetching data...');
-      const response = await fetch('/api/getMarkers');
-      const data = await response.json();
-
-      console.log('Data fetched from API:', data);
-
-      if (data.success && data.data && data.data.features && data.data.features.length > 0) {
-        console.log('Adding data to map...');
-        map.current.addSource('shipwrecks', {
-          type: 'geojson',
-          data: data.data
-        });
-
-        map.current.addLayer({
-          id: 'shipwrecks',
-          type: 'circle',
-          source: 'shipwrecks',
-          paint: {
-            'circle-radius': 10,
-            'circle-color': '#b42222'
-          }
-        });
-        console.log('Data added to map');
-      } else {
-        console.error('Error fetching data from API or no data available:', data.message);
-      }
-    });
   }, [lat, lng, zoom]);
 
   return (
