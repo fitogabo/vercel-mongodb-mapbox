@@ -1,5 +1,5 @@
 // pages/api/getMarkers.js
-import dbConnect from '../../lib/dbConnect';
+import dbConnect from '../../app/lib/dbConnect';
 import Shipwreck from '../../models/shipwreck';
 
 const getMarkers = async (req, res) => {
